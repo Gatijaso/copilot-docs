@@ -1,3 +1,12 @@
+Metadata-Version: 2.4
+Name: copilot-docs
+Version: 0.1.0
+Summary: Utilities and demo for gold_model
+Author: Josep
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Dynamic: license-file
+
 # copilot-docs — Quant demo
 
 This repository contains a minimal quant demo: fetching GLD prices, fitting ARIMA and GARCH models, a simple ML baseline, and a tiny backtest.

@@ -1,0 +1,6 @@
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git status --porcelain
+git add .
+git commit -m "Improve data pipeline, models, features, backtest; add ML baseline, tests, README; save requirements"
+git log -1
