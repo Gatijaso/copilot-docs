@@ -1,0 +1,9 @@
+﻿.venv/
+venv/
+venv311/
+quantenv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg

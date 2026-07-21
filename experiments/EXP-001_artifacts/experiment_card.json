@@ -1,0 +1,7 @@
+﻿{
+  "experiment": "EXP-001",
+  "script": "run_demo.py",
+  "notes": "Placeholder artifacts created manually",
+  "artifacts": ["rv.csv","volmidas_pred.csv","capacity_curve.csv"],
+  "commit": null
+}
