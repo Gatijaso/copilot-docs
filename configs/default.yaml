@@ -1,22 +1,75 @@
-RegimeDetector:
+# Default configuration for EXP-001
+experiment:
+  id: "EXP-001"
+  owner: "you"
+  seed: 42
+  description: "VolMIDAS baseline (HF 5m) + Almgren-Chriss capacity sweep"
+
+data:
+  hf:
+    freq: "5m"
+    lookback_days: 90
+    instruments: ["INSTRUMENT_A"]
+    file_pattern: "data/hf/{instrument}.parquet"
+  lf:
+    real_yields: "data/lf/real_yields.csv"
+    cot: "data/lf/cot_weekly.csv"
+    event_calendar: "data/lf/events.csv"
+  provenance:
+    vendor: "sample"
+    data_hash: "TODO:fill_hash_here"
+
+regime_detector:
   lookback_days: 252
   state_count: 3
-  inference_cadence: daily
+  inference_cadence: "daily"
+  anchored: true
+  anchor_rules:
+    real_rate_sign_change: true
 
-VolMIDAS:
-  hf_freq: 5m
+volmidas:
+  hf_freq: "5m"
   midas_lag_days: 30
-  weight_family: beta
+  weight_family: "beta"
+  estimation:
+    window_days: 90
+    step_days: 7
+  regularization:
+    ridge: 0.0
+    l1: 0.0
 
-ShockLab:
+shocklab:
   event_windows:
     monetary: [-60, 240]
     cpi: [-60, 1440]
+  surprise_metric: "zscore"
+  surprise_window_days: 365
 
-Positioning:
+positioning:
   cot_smoothing_weeks: 4
   cot_lags_weeks: [0,1,2,3,4]
+  normalize_by_open_interest: true
 
-Execution:
-  impact_model: almgren_chriss
+microstructure:
+  session_split: ["asia","europe","us"]
+  imbalance_window_seconds: 60
+  lob_snapshot_interval_seconds: 60
+
+execution:
+  impact_model: "almgren_chriss"
+  almgren_chriss:
+    temporary_impact_coef: 1e-6
+    permanent_impact_coef: 1e-7
+    risk_aversion: 1e-6
+    execution_horizon_minutes: 60
   max_leverage: 3
+
+ml:
+  feature_selection:
+    method: "mutual_information"
+    retain_top_pct: 0.5
+  retrain_cadence_days: 30
+
+experiment_registry:
+  path: "experiments/registry.parquet"
+  required_fields: ["experiment_id","data_hash","config_path","commit","owner","seed","start_time","end_time","metrics"]
