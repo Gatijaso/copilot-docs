@@ -1,1 +1,22 @@
+# Schema for experiment registry entries
+experiment_id: string        # unique id, e.g., EXP-001
+owner: string                # owner or team
+description: string          # short description of experiment
+data_hash: string            # hash of all input data files used
+config_path: string          # path to config file used
+commit: string               # git commit SHA for code used
+seed: integer                # RNG seed for reproducibility
+start_time: datetime        # ISO 8601 start
+end_time: datetime          # ISO 8601 end
+status: enum                # one of [planned,running,completed,failed]
+metrics:
+  vol_rmse: number
+  vol_qlike: number
+  tail_hit_rate: number
+  capacity_aum_at_threshold: number
+artifacts:
+  notebook_path: string
+  figures: string[]          # paths to figure files
+notes: string                # free text notes
+tags: string[]               # e.g., ["volmidas","regime","capacity"]
 
