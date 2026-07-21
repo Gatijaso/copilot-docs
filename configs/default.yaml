@@ -1,0 +1,22 @@
+RegimeDetector:
+  lookback_days: 252
+  state_count: 3
+  inference_cadence: daily
+
+VolMIDAS:
+  hf_freq: 5m
+  midas_lag_days: 30
+  weight_family: beta
+
+ShockLab:
+  event_windows:
+    monetary: [-60, 240]
+    cpi: [-60, 1440]
+
+Positioning:
+  cot_smoothing_weeks: 4
+  cot_lags_weeks: [0,1,2,3,4]
+
+Execution:
+  impact_model: almgren_chriss
+  max_leverage: 3
