@@ -54,6 +54,38 @@ def main():
     bt = backtest_long_only(price, signal, cost=0.0005, scale_by_vol=vol_series)
     print("Backtest summary (last rows):")
     print(bt.tail())
+    
+    # --- save artifacts to experiments/EXP-001_artifacts ---
+    import os
+    import json
+
+    art_dir = "experiments/EXP-001_artifacts"
+    os.makedirs(art_dir, exist_ok=True)
+
+    # save backtest (returns + positions)
+    bt.to_csv(os.path.join(art_dir, "rv.csv"))
+
+    # save vol forecast (GARCH)
+    vol_forecast.to_csv(os.path.join(art_dir, "volmidas_pred.csv"), header=True)
+
+    # save ARIMA price forecast
+    ar_price_forecast.to_csv(os.path.join(art_dir, "ar_price_forecast.csv"), header=True)
+
+    # minimal capacity_curve placeholder
+    capacity_df = pd.DataFrame({"horizon": range(1, len(vol_forecast) + 1), "vol": vol_forecast.values})
+    capacity_df.to_csv(os.path.join(art_dir, "capacity_curve.csv"), index=False)
+
+    # write a small experiment card with metadata
+    experiment_card = {
+    "experiment": "EXP-001",
+    "script": "run_demo.py",
+    "notes": "Demo run: ARIMA + GARCH + ML baseline",
+    "artifacts": ["rv.csv", "volmidas_pred.csv", "ar_price_forecast.csv", "capacity_curve.csv"],
+    "commit": None
+    }
+    with open(os.path.join(art_dir, "experiment_card.json"), "w") as f:
+    json.dump(experiment_card, f, indent=2)
+    # --- end save block ---
 
     # quick plot
     fig, axes = plt.subplots(3, 1, figsize=(8, 8), sharex=True)
